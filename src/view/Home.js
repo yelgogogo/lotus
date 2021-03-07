@@ -1,6 +1,6 @@
 import Service from '../lib/service'
 import React, { useState, useEffect } from 'react';
-import { HeartFilled } from '@ant-design/icons';
+import { HeartFilled, EyeOutlined } from '@ant-design/icons';
 
 const StoryList = (props) => {
   return props.stories.map(s => {
@@ -9,11 +9,15 @@ const StoryList = (props) => {
 }
 
 const StoryCard = (props) => {
+  const { title, subtitle, likes, starttime, visitors } = props.story
   return <div>
-    <div>{props.story.title}</div>
-    <div>{props.story.subtitle}</div>
+    <div>{title}</div>
+    <div>{subtitle}</div>
+    <div>{starttime}</div>
+    <EyeOutlined />
+    <div>{visitors && visitors.length}</div>
+    <div>{likes && likes.length}</div>
     <HeartFilled />
-    {props.story.bayid}
   </div>
 }
 
@@ -26,7 +30,7 @@ const Home = () => {
   const getData = () => {
     Service.get('/story').then(res => {
       console.log('res', res.data.data[100])
-      setStories(res.data.data)
+      setStories(res.data.data.filter(r => r.bayid === 2))
     })
   }
 
