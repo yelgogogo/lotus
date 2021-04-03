@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { HeartFilled, EyeOutlined } from '@ant-design/icons';
 import { imgPath } from '../lib/util'
 import { throttle } from 'lodash'
+import Img from '../component/Img'
 import './Home.css'
 
 const StoryList = (props) => {
@@ -23,7 +24,7 @@ const StoryCard = (props) => {
     </div>
     <div className="card-title">{title}</div>
     {/* <div>{role}</div> */}
-    {cover && <img className="card-cover" src={props.i < 3 ? imgPath(cover) : ""} data-src={imgPath(cover)} alt=""/>}
+    {cover && <Img className="card-cover" src={props.i < 3 ? cover : ""} lazySrc={cover} alt=""/>}
     <div className="card-content">{subtitle}</div>
     {/* <EyeOutlined /> */}
     {/* <div>{visitors && visitors.length}</div> */}
@@ -56,7 +57,7 @@ const Home = () => {
     let index = 0;
     Array.from(imgs).map((item, inx) => {
       if (isInClietn(item) && inx > index) {
-        item.src = item.getAttribute('data-src');
+        item.src = item.getAttribute('lazysrc');
         index = inx + 1;
       }
     });
