@@ -1,0 +1,59 @@
+.card-cover {
+  width: 100%;
+}
+
+.card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.home {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+}
+
+.card-box {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: #ffffff;
+}
+
+.card-date {
+  font-size: 16px;
+  height: 30px;
+  line-height: 30px;
+  color: #555555;
+}
+
+.card-title {
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+
+.card-content {
+  padding:10px;
+  text-align: center;
+  white-space: break-spaces;
+}
+
+.card-header {
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.card-like {
+  color: #555555;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}

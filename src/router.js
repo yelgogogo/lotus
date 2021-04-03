@@ -9,7 +9,7 @@ const LotusRouter = () => {
   return (
     <Router>
       <Route exact path="/">
-      <Home />
+        <Home />
       </Route>
     </Router>
   );
