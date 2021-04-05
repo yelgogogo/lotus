@@ -25,7 +25,7 @@
   font-size: 16px;
   height: 30px;
   line-height: 30px;
-  color: #555555;
+  
 }
 
 .card-title {
@@ -43,6 +43,7 @@
 }
 
 .card-header {
+  color: #aaaaaa;
   padding-left: 10px;
   padding-right: 10px;
   display: flex;
@@ -51,7 +52,6 @@
   margin-bottom: 10px;
 }
 .card-like {
-  color: #555555;
   height: 100%;
   display: flex;
   align-items: center;
