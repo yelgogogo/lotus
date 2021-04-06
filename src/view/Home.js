@@ -1,20 +1,24 @@
 import Service from '../lib/service'
-import React, { useState, useEffect } from 'react';
-import { HeartFilled, EyeOutlined } from '@ant-design/icons';
-import { imgPath } from '../lib/util'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { HeartFilled, EyeOutlined, GoldTwoTone } from '@ant-design/icons'
 import { throttle } from 'lodash'
 import Img from '../component/Img'
 import './Home.css'
 
 const StoryList = (props) => {
+  
   return props.stories.map((s, i) => {
-    return <StoryCard i={i} story={s} key={s._id}/>
+    return <StoryCard i={i} story={s} key={s._id} />
   })
 }
 
 const StoryCard = (props) => {
-  const { title, role, cover, subtitle, likes, starttime, visitors, avatar } = props.story
-  return <div className="card-box">
+  const { title, id, role, cover, subtitle, likes, starttime, visitors, avatar } = props.story
+  const goToStory = () => {
+    return `/story?id=${id}`
+  }
+  return <Link className="card-box" to={goToStory()}>
     {/* {avatar && <img className="card-avatar" src={imgPath(avatar)} alt=""/>} */}
     <div className="card-header">
       <div className="card-date">{starttime}</div>
@@ -24,11 +28,11 @@ const StoryCard = (props) => {
     </div>
     <div className="card-title">{title}</div>
     {/* <div>{role}</div> */}
-    {cover && <Img className="card-cover" src={props.i < 3 ? cover : ""} lazySrc={cover} alt=""/>}
+    {cover && <Img className="card-cover" src={props.i < 3 ? cover : ""} lazysrc={cover} alt=""/>}
     <div className="card-content">{subtitle}</div>
     {/* <EyeOutlined /> */}
     {/* <div>{visitors && visitors.length}</div> */}
-  </div>
+  </Link>
 }
 
 const Home = () => {
@@ -66,6 +70,7 @@ const Home = () => {
   useEffect(() => {
     getData()
   }, [])
+
   const getData = () => {
     Service.get('/story').then(res => {
       console.log('res', res.data.data[100])
@@ -80,4 +85,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Home

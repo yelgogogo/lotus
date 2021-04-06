@@ -1,6 +1,7 @@
 import axios from 'axios'
-
-const ajaxUrl = 'http://121.89.217.223:8090'
+export const baseUrl = 'http://localhost'
+// export const baseUrl = 'http://vvzv.nstart.cc'
+const ajaxUrl = baseUrl + ':8090'
 const Service = axios.create({
   baseURL: ajaxUrl,
   timeout: 30000
