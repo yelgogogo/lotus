@@ -16,6 +16,9 @@
 }
 
 .card-box {
+  text-decoration:none;
+  display: block;
+  color: black;
   margin-top: 10px;
   margin-bottom: 20px;
   background: #ffffff;

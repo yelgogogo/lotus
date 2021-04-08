@@ -1,0 +1,164 @@
+.card-cover {
+  width: 100%;
+}
+
+.card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.home {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+}
+
+.card-box {
+  text-decoration:none;
+  display: block;
+  color: black;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background: #ffffff;
+}
+
+.card-date {
+  font-size: 16px;
+  height: 30px;
+  line-height: 30px;
+  
+}
+
+.card-title {
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+
+.card-content {
+  padding:10px;
+  text-align: center;
+  white-space: break-spaces;
+}
+
+.card-footer {
+  color: #aaaaaa;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  height: 40px;
+}
+
+.card-header {
+  color: #aaaaaa;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.card-like {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.likes-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 20px;
+}
+
+.likes-box {
+  flex-wrap: wrap;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.likes-item {
+  width: 40px;
+  height: 60px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.likes-name {
+  margin-top: 10px;
+}
+
+.likes-container {
+  padding: 10px;
+  background: #f4f4f4;
+  color: #aaaaaa;
+}
+
+.card-footer-right {
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment-box {
+  display: flex;
+  background: #f4f4f4;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.comment-left {
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-right {
+  background: #ffffff;
+  border-radius: 6px;
+  flex: 1;
+  margin-left: 4px;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.story-page {
+  height: 100vh;
+  background: #f4f4f4;
+}
+
+.comment-area {
+  color: #aaaaaa;
+  padding-bottom: 10px;
+}
+
+.comment-container {
+  background: #f4f4f4;
+  padding: 10px;
+}
+
+.comment-time {
+  position: absolute;
+  right: 2px;
+  bottom: 20px;
+  color: #aaaaaa;
+}

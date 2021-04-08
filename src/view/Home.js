@@ -72,9 +72,13 @@ const Home = () => {
   }, [])
 
   const getData = () => {
-    Service.get('/story').then(res => {
+    Service.get('/story', {
+      params: {
+        bayid: 2
+      }
+    }).then(res => {
       console.log('res', res.data.data[100])
-      setStories(res.data.data.filter(r => r.bayid === 2))
+      setStories(res.data.data)
     })
   }
 
