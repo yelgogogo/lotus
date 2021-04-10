@@ -1,42 +1,53 @@
 import Service from '../lib/service'
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { useHistory } from 'react-router-dom'
 import { HeartFilled, EyeOutlined, GoldTwoTone } from '@ant-design/icons'
 import { throttle } from 'lodash'
 import Img from '../component/Img'
-import './Home.css'
+import StoryFullCard from '../component/StoryFullCard'
+import styles from './Home.module.css'
 
 const StoryList = (props) => {
   
   return props.stories.map((s, i) => {
-    return <StoryCard i={i} story={s} key={s._id} />
+    return <StoryCard i={i} story={s} key={s._id} expand={props.expand}/>
   })
 }
 
 const StoryCard = (props) => {
   const { title, id, role, cover, subtitle, likes, starttime, visitors, avatar } = props.story
+  const history = useHistory();
   const goToStory = () => {
-    return `/story?id=${id}`
+    return history.push(`/story?id=${id}`)
   }
-  return <Link className="card-box" to={goToStory()}>
-    {/* {avatar && <img className="card-avatar" src={imgPath(avatar)} alt=""/>} */}
-    <div className="card-header">
-      <div className="card-date">{starttime}</div>
-      <div className="card-like">
-      <HeartFilled /><div>&nbsp;{likes && likes.length}</div>
+  return <div className={styles["card-box"]}>
+    <div className={styles["card-header"]}>
+      <div className={styles["card-date"]}>{starttime}</div>
+      <div className={styles["card-like"]}>
+        <HeartFilled /><div>&nbsp;{likes && likes.length}</div>
+      </div>
+
+    </div>
+    <div className={styles["card-title"]}>{title}</div>
+    {cover && <div className={styles["card-cover-box"]}>
+      <Img className={styles["card-cover"]} src={props.i < 3 ? cover : ""} lazysrc={cover} alt=""/>
+    </div>}
+    <div className={styles["card-content"]}>{subtitle}</div>
+    <div className={styles["card-footer"]}>
+      <div  onClick={() => props.expand(id)}>
+        展开
+      </div>
+      <div onClick={goToStory}>
+        链接
       </div>
     </div>
-    <div className="card-title">{title}</div>
-    {/* <div>{role}</div> */}
-    {cover && <Img className="card-cover" src={props.i < 3 ? cover : ""} lazysrc={cover} alt=""/>}
-    <div className="card-content">{subtitle}</div>
-    {/* <EyeOutlined /> */}
-    {/* <div>{visitors && visitors.length}</div> */}
-  </Link>
+  </div>
 }
 
 const Home = () => {
   const [stories, setStories] = useState([])
+  const [story, setStory] = useState({})
+  const [showModal, setShowModal] = useState('')
 
   useEffect(() => {
     // throttl 是js节流函数，具体请参考lodash.js工具库
@@ -82,9 +93,37 @@ const Home = () => {
     })
   }
 
+  const expandStory = (id) => {
+
+    window.homeRef = homeRef
+    homeRef.current.overflowY = 'hidden'
+    console.log('homeRef', homeRef)
+    console.log('expandStory', id)
+    Service.get('/storybyid', {
+      params: {
+        id
+      }
+    }).then(res => {
+      console.log('expandStory', res.data.data)
+      setStory(res.data.data)
+      setShowModal('StoryFullCard')
+    })
+  }
+  const shrinkCard = () => {
+    homeRef.current.overflowY = 'scroll'
+    setStory({})
+    setShowModal('')
+  }
+
+  const homeRef = useRef();
+
   return (
-    <div className="home">
-      <StoryList stories={stories}/>
+    <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}}>
+      <StoryList stories={stories} expand={expandStory}/>
+      {showModal && <div className={styles["modal"]}>
+        { showModal === 'StoryFullCard' && <StoryFullCard story={story}/>}
+        <div onClick={shrinkCard}>返回</div>
+      </div>}
     </div>
   );
 }

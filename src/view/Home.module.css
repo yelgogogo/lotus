@@ -2,6 +2,16 @@
   width: 100%;
 }
 
+.card-cover-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 350px;
+  height: 216px;
+}
+
+
 .card-avatar {
   width: 40px;
   height: 40px;
@@ -10,7 +20,11 @@
 
 .home {
   width: 100%;
-  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   box-sizing: border-box;
   background-color: #f4f4f4;
 }
@@ -22,6 +36,7 @@
   margin-top: 10px;
   margin-bottom: 20px;
   background: #ffffff;
+  width: 350px;
 }
 
 .card-date {
@@ -59,4 +74,26 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+.card-footer {
+  color: #aaaaaa;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+  background-color: #f4f4f4;
 }
