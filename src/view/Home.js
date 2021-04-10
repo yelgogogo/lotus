@@ -7,6 +7,8 @@ import Img from '../component/Img'
 import StoryFullCard from '../component/StoryFullCard'
 import styles from './Home.module.css'
 
+const CARD_HEIGHT = 566 + 30
+
 const StoryList = (props) => {
   
   return props.stories.map((s, i) => {
@@ -46,40 +48,56 @@ const StoryCard = (props) => {
 
 const Home = () => {
   const [stories, setStories] = useState([])
+  const [storiesAll, setStoriesAll] = useState([])
   const [story, setStory] = useState({})
   const [showModal, setShowModal] = useState('')
-
-  useEffect(() => {
-    // throttl 是js节流函数，具体请参考lodash.js工具库
-    window.addEventListener('scroll', throttle(checkAllImags));
-    return () => {
-      window.removeEventListener('scroll', throttle(checkAllImags));
-    }
-  }, []);
-
-  const isInClietn = (el) => {
-    // 获取元素
-    // 获取元素具体视窗的距离
-    let { top, right, bottom, left } = el.getBoundingClientRect();
-    // 浏览器窗口
-    let clientHeight = window.innerHeight;
-    let clientWidth = window.innerWidth;
-    return !(top > clientHeight || bottom < 0 || left > clientWidth || right < 0);
-  };
-
-  const checkAllImags = () => {
-    const imgs = document.querySelectorAll('img');
-    let index = 0;
-    Array.from(imgs).map((item, inx) => {
-      if (isInClietn(item) && inx > index) {
-        item.src = item.getAttribute('lazysrc');
-        index = inx + 1;
+  const [scrollerHeight, setScrollerHeight] = useState(0)
+  const [virtualTop, setVirtualTop] = useState(0)
+  
+  const getStoryTop = () => {
+    Service.get('/storyTop', {
+      params: {
+        bayid: 2
       }
-    });
-  };
+    }).then(res => {
+      console.log('getStoryTop', res.data.data)
+      setStories(res.data.data)
+      getStoryCount()
+      getData()
+    })
+  }
+  
+  const getStoryCount = () => {
+    Service.get('/storyCount', {
+      params: {
+        bayid: 2
+      }
+    }).then(res => {
+      console.log('getStoryCount', res.data.count)
+      setScrollerHeight(res.data.count * CARD_HEIGHT)
+      // setStories(res.data.data)
+    })
+  }
 
+  const checkScroller = () => {
+    if (storiesAll.length === 0) {
+      return
+    }
+    const startIndex = Math.floor(homeRef.current.scrollTop / CARD_HEIGHT) - 1
+    const topSize = CARD_HEIGHT * startIndex
+    if (startIndex >= 0) {
+      const showStories = storiesAll.slice(startIndex, 4 + startIndex)
+      setStories(showStories)
+      setVirtualTop(topSize)
+    }
+    // const topSize = homeRef.current.scrollTop
+    // if (homeRef.current.scrollTop > CARD_HEIGHT) {
+    //   setVirtualTop(topSize)
+    // }
+    console.log('homeRef.current.scrollTop', startIndex, topSize, homeRef.current.scrollTop)
+  };
   useEffect(() => {
-    getData()
+    getStoryTop()
   }, [])
 
   const getData = () => {
@@ -89,13 +107,11 @@ const Home = () => {
       }
     }).then(res => {
       console.log('res', res.data.data[100])
-      setStories(res.data.data)
+      setStoriesAll(res.data.data)
     })
   }
 
   const expandStory = (id) => {
-
-    window.homeRef = homeRef
     homeRef.current.overflowY = 'hidden'
     console.log('homeRef', homeRef)
     console.log('expandStory', id)
@@ -116,10 +132,13 @@ const Home = () => {
   }
 
   const homeRef = useRef();
-
+  window.homeRef = homeRef
   return (
-    <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}}>
-      <StoryList stories={stories} expand={expandStory}/>
+    <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}} onScroll={checkScroller}>
+      <div className={styles["story-show"]} style={{top: virtualTop}}>
+        <StoryList stories={stories} expand={expandStory}/>
+      </div>
+      <div className={styles["scroller"]} style={{minHeight: scrollerHeight}}>&nbsp;</div>
       {showModal && <div className={styles["modal"]}>
         { showModal === 'StoryFullCard' && <StoryFullCard story={story}/>}
         <div onClick={shrinkCard}>返回</div>
