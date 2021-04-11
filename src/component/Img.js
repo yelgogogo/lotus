@@ -7,7 +7,6 @@ const Img = (props) => {
     <img
       {...props} 
       src={props.src ? imgPath(props.src) : defaultImg}
-      lazysrc={props.lazysrc ? imgPath(props.lazysrc) : ""}
       alt={props.alt ? props.alt : ""}
     />
   )

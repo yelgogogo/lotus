@@ -7,7 +7,7 @@ import Img from '../component/Img'
 import StoryFullCard from '../component/StoryFullCard'
 import styles from './Home.module.css'
 
-const CARD_HEIGHT = 566 + 30
+const CARD_HEIGHT = 566 + 20
 
 const StoryList = (props) => {
   
@@ -22,6 +22,12 @@ const StoryCard = (props) => {
   const goToStory = () => {
     return history.push(`/story?id=${id}`)
   }
+  const [imgSrc, setImgSrc] = useState('')
+  useEffect(() => {
+    setTimeout(() => {
+      setImgSrc(cover)
+    }, 1000)
+  }, [])
   return <div className={styles["card-box"]}>
     <div className={styles["card-header"]}>
       <div className={styles["card-date"]}>{starttime}</div>
@@ -32,7 +38,7 @@ const StoryCard = (props) => {
     </div>
     <div className={styles["card-title"]}>{title}</div>
     {cover && <div className={styles["card-cover-box"]}>
-      <Img className={styles["card-cover"]} src={props.i < 3 ? cover : ""} lazysrc={cover} alt=""/>
+      <Img className={styles["card-cover"]} src={imgSrc} alt=""/>
     </div>}
     <div className={styles["card-content"]}>{subtitle}</div>
     <div className={styles["card-footer"]}>
