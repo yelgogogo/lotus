@@ -25,10 +25,12 @@ const StoryCard = (props) => {
   }
   const [imgSrc, setImgSrc] = useState('')
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setImgSrc(cover)
     }, 1000)
-    // to do cancel useEffect when destory
+    return () => {
+      clearTimeout(timer)
+    }
   }, [])
   return <div className={styles["card-box"]}>
     <div className={styles["card-header"]}>
@@ -111,6 +113,7 @@ const Home = () => {
       return
     }
     const startIndex = Math.floor(homeRef.current.scrollTop / CARD_HEIGHT) - 1
+    console.log('homeRef.current.scrollTop', homeRef.current.scrollTop)
     if (homeRef.current.scrollTop > USER_HEIGHT) {
       setUserSpaceDisplay('none')
     } else {
