@@ -1,7 +1,11 @@
 import axios from 'axios'
-// export const baseUrl = 'http://localhost'
-console.log('process', process)
-export const baseUrl = 'http://vvzv.nstart.cc'
+export let baseUrl
+console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+if (process.env.NODE_ENV === 'development') {
+  baseUrl = 'http://localhost'
+} else {
+  baseUrl = 'http://vvzv.nstart.cc'
+}
 const ajaxUrl = baseUrl + ':8090'
 const Service = axios.create({
   baseURL: ajaxUrl,

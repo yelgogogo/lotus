@@ -27,6 +27,7 @@ const StoryCard = (props) => {
     setTimeout(() => {
       setImgSrc(cover)
     }, 1000)
+    // to do cancel useEffect when destory
   }, [])
   return <div className={styles["card-box"]}>
     <div className={styles["card-header"]}>
@@ -52,6 +53,18 @@ const StoryCard = (props) => {
   </div>
 }
 
+const UserCard = (props) => {
+  return <div className={styles["user-box"]} {...props}>
+    <div className={styles["user-info"]}>
+      <Img className={styles["user-avatar"]} src={props.user.avatar} />
+      <div>&nbsp;&nbsp;{props.user.name}</div>
+    </div>
+    <div className={styles["user-sign"]}>
+      + 助力
+    </div>
+  </div>
+}
+
 const Home = () => {
   const [stories, setStories] = useState([])
   const [storiesAll, setStoriesAll] = useState([])
@@ -59,6 +72,8 @@ const Home = () => {
   const [showModal, setShowModal] = useState('')
   const [scrollerHeight, setScrollerHeight] = useState(0)
   const [virtualTop, setVirtualTop] = useState(0)
+  const [user, setUser] = useState()
+  const [userDisplay, setUserDisplay] = useState('')
   
   const getStoryTop = () => {
     Service.get('/storyTop', {
@@ -68,6 +83,10 @@ const Home = () => {
     }).then(res => {
       console.log('getStoryTop', res.data.data)
       setStories(res.data.data)
+      setUser({
+        avatar: res.data.data[0].avatar,
+        name: res.data.data[0].role
+      })
       getStoryCount()
       getData()
     })
@@ -94,13 +113,19 @@ const Home = () => {
     if (startIndex >= 0) {
       const showStories = storiesAll.slice(startIndex, 4 + startIndex)
       setStories(showStories)
+
+      if (topSize > virtualTop) {
+        setUserDisplay('none')
+      } else if (topSize < virtualTop) {
+        setUserDisplay('')
+      }
       setVirtualTop(topSize)
     }
     // const topSize = homeRef.current.scrollTop
     // if (homeRef.current.scrollTop > CARD_HEIGHT) {
     //   setVirtualTop(topSize)
     // }
-    console.log('homeRef.current.scrollTop', startIndex, topSize, homeRef.current.scrollTop)
+    // console.log('homeRef.current.scrollTop', startIndex, topSize, virtualTop, homeRef.current.scrollTop)
   };
   useEffect(() => {
     getStoryTop()
@@ -137,18 +162,21 @@ const Home = () => {
     setShowModal('')
   }
 
-  const homeRef = useRef();
+  const homeRef = useRef()
   window.homeRef = homeRef
   return (
-    <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}} onScroll={checkScroller}>
-      <div className={styles["story-show"]} style={{top: virtualTop}}>
-        <StoryList stories={stories} expand={expandStory}/>
+    <div className={styles["main"]}>
+      {user && <UserCard user={user} style={{display:userDisplay}}/>}
+      <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}} onScroll={checkScroller}>
+        <div className={styles["story-show"]} style={{top: virtualTop}}>
+          <StoryList stories={stories} expand={expandStory}/>
+        </div>
+        <div className={styles["scroller"]} style={{minHeight: scrollerHeight}}>&nbsp;</div>
+        {showModal && <div className={styles["modal"]}>
+          { showModal === 'StoryFullCard' && <StoryFullCard story={story}/>}
+          <div onClick={shrinkCard}>返回</div>
+        </div>}
       </div>
-      <div className={styles["scroller"]} style={{minHeight: scrollerHeight}}>&nbsp;</div>
-      {showModal && <div className={styles["modal"]}>
-        { showModal === 'StoryFullCard' && <StoryFullCard story={story}/>}
-        <div onClick={shrinkCard}>返回</div>
-      </div>}
     </div>
   );
 }
