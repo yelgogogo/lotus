@@ -17,13 +17,14 @@
 }
 
 .user-box {
+  position: absolute;
+  background: #ffffff;
   z-index: 999;
   height: 60px;
   width: 100vw;
   padding: 10px;
   box-shadow: 0px 4px 4px -4px #000;
   box-sizing: border-box;
-  margin-bottom: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -64,6 +65,9 @@
   height: 216px;
 }
 
+.space-user {
+  min-height: 65px;
+}
 
 .card-avatar {
   width: 40px;

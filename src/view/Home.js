@@ -8,6 +8,7 @@ import StoryFullCard from '../component/StoryFullCard'
 import styles from './Home.module.css'
 
 const CARD_HEIGHT = 566 + 20
+const USER_HEIGHT = 65
 
 const StoryList = (props) => {
   
@@ -74,6 +75,7 @@ const Home = () => {
   const [virtualTop, setVirtualTop] = useState(0)
   const [user, setUser] = useState()
   const [userDisplay, setUserDisplay] = useState('')
+  const [userSpaceDisplay, setUserSpaceDisplay] = useState('')
   
   const getStoryTop = () => {
     Service.get('/storyTop', {
@@ -109,6 +111,11 @@ const Home = () => {
       return
     }
     const startIndex = Math.floor(homeRef.current.scrollTop / CARD_HEIGHT) - 1
+    if (homeRef.current.scrollTop > USER_HEIGHT) {
+      setUserSpaceDisplay('none')
+    } else {
+      setUserSpaceDisplay('')
+    }
     const topSize = CARD_HEIGHT * startIndex
     if (startIndex >= 0) {
       const showStories = storiesAll.slice(startIndex, 4 + startIndex)
@@ -169,6 +176,7 @@ const Home = () => {
       {user && <UserCard user={user} style={{display:userDisplay}}/>}
       <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}} onScroll={checkScroller}>
         <div className={styles["story-show"]} style={{top: virtualTop}}>
+          <div className={styles["space-user"]} style={{display:userSpaceDisplay}}>&nbsp;</div>
           <StoryList stories={stories} expand={expandStory}/>
         </div>
         <div className={styles["scroller"]} style={{minHeight: scrollerHeight}}>&nbsp;</div>
