@@ -4,10 +4,24 @@
   border-color: #ff85f8;
   color: #ff85f8;
   height: 30px;
-  width: 60px;
+  width: 50px;
   text-align: center;
-  line-height: 30px;
   border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-text-plus {
+  height: 20px;
+  font-size: 16px;
+  padding-bottom: 6px;
+}
+.user-text {
+  height: 20px;
+  font-size: 16px;
 }
 
 .main {

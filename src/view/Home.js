@@ -63,7 +63,7 @@ const UserCard = (props) => {
       <div>&nbsp;&nbsp;{props.user.name}</div>
     </div>
     <div className={styles["user-sign"]}>
-      + 助力
+      <span className={styles["user-text-plus"]}>+</span> <span className={styles["user-text"]}>助力</span>
     </div>
   </div>
 }
@@ -151,6 +151,16 @@ const Home = () => {
       setStoriesAll(res.data.data)
     })
   }
+  const goToTop = () => {
+    if (storiesAll.length === 0) {
+      return
+    }
+    homeRef.current.scrollTo(0,0)
+    setUserSpaceDisplay('')
+    setVirtualTop(0)
+    const showStories = storiesAll.slice(0, 4)
+    setStories(showStories)
+  }
 
   const expandStory = (id) => {
     homeRef.current.overflowY = 'hidden'
@@ -162,12 +172,14 @@ const Home = () => {
       }
     }).then(res => {
       console.log('expandStory', res.data.data)
+      setUserDisplay('none')
       setStory(res.data.data)
       setShowModal('StoryFullCard')
     })
   }
   const shrinkCard = () => {
     homeRef.current.overflowY = 'scroll'
+    setUserDisplay('')
     setStory({})
     setShowModal('')
   }
@@ -176,13 +188,13 @@ const Home = () => {
   window.homeRef = homeRef
   return (
     <div className={styles["main"]}>
-      {user && <UserCard user={user} style={{display:userDisplay}}/>}
+      {user && <UserCard user={user} style={{display:userDisplay}} onClick={goToTop}/>}
       <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}} onScroll={checkScroller}>
         <div className={styles["story-show"]} style={{top: virtualTop}}>
           <div className={styles["space-user"]} style={{display:userSpaceDisplay}}>&nbsp;</div>
           <StoryList stories={stories} expand={expandStory}/>
         </div>
-        <div className={styles["scroller"]} style={{minHeight: scrollerHeight}}>&nbsp;</div>
+        <div className={styles["scroller"]} style={{minHeight: scrollerHeight}} >&nbsp;</div>
         {showModal && <div className={styles["modal"]}>
           { showModal === 'StoryFullCard' && <StoryFullCard story={story}/>}
           <div onClick={shrinkCard}>返回</div>
