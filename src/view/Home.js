@@ -1,7 +1,7 @@
 import Service from '../lib/service'
 import { setLocalUser } from '../lib/util'
 import React, { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { HeartFilled, EyeOutlined, GoldTwoTone } from '@ant-design/icons'
 import { throttle } from 'lodash'
 import Img from '../component/Img'
@@ -70,6 +70,11 @@ const UserCard = (props) => {
   </div>
 }
 
+const getBayId = (txt) => {
+  return txt.replace('?id=', '')
+}
+
+
 const Home = () => {
   const [stories, setStories] = useState([])
   const [storiesAll, setStoriesAll] = useState([])
@@ -80,11 +85,13 @@ const Home = () => {
   const [user, setUser] = useState()
   const [userDisplay, setUserDisplay] = useState('')
   const [userSpaceDisplay, setUserSpaceDisplay] = useState('')
+  const location = useLocation()
+  const bayid = getBayId(location.search)
   
   const getStoryTop = () => {
     Service.get('/storyTop', {
       params: {
-        bayid: 2
+        bayid
       }
     }).then(res => {
       console.log('getStoryTop', res.data.data)
@@ -94,10 +101,12 @@ const Home = () => {
     })
   }
   
+
+
   const getStoryCount = () => {
     Service.get('/storyCount', {
       params: {
-        bayid: 2
+        bayid
       }
     }).then(res => {
       console.log('getStoryCount', res.data.count)
@@ -157,7 +166,7 @@ const Home = () => {
   const getData = () => {
     Service.get('/story', {
       params: {
-        bayid: 2
+        bayid
       }
     }).then(res => {
       console.log('res', res.data.data[100])
