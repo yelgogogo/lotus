@@ -116,7 +116,7 @@ const Home = () => {
     console.log('homeRef.current.scrollTop', homeRef.current.scrollTop)
     if (homeRef.current.scrollTop > USER_HEIGHT) {
       setUserSpaceDisplay('none')
-    } else {
+    } else if (homeRef.current.scrollTop === 0 ) {
       setUserSpaceDisplay('')
     }
     const topSize = CARD_HEIGHT * startIndex
