@@ -1,9 +1,11 @@
 import Service from '../lib/service'
+import { setLocalUser } from '../lib/util'
 import React, { useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { HeartFilled, EyeOutlined, GoldTwoTone } from '@ant-design/icons'
 import { throttle } from 'lodash'
 import Img from '../component/Img'
+import userImg from '../images/user.jpg'
 import StoryFullCard from '../component/StoryFullCard'
 import styles from './Home.module.css'
 
@@ -87,10 +89,6 @@ const Home = () => {
     }).then(res => {
       console.log('getStoryTop', res.data.data)
       setStories(res.data.data)
-      setUser({
-        avatar: res.data.data[0].avatar,
-        name: res.data.data[0].role
-      })
       getStoryCount()
       getData()
     })
@@ -137,7 +135,22 @@ const Home = () => {
     // }
     // console.log('homeRef.current.scrollTop', startIndex, topSize, virtualTop, homeRef.current.scrollTop)
   };
+  const userCheck = () => {
+    const checkUser = localStorage.getItem('user')
+    let userShow = ''
+    if (!checkUser) {
+      userShow = setLocalUser()
+    } else {
+      userShow = JSON.parse(checkUser)
+    }
+    setUser({
+      id: userShow.id,
+      name: userShow.nickname,
+      avatar: userShow.avatar ? userShow.avatar : userImg
+    })
+  }
   useEffect(() => {
+    userCheck()
     getStoryTop()
   }, [])
 
