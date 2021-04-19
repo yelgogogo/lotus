@@ -1,74 +1,19 @@
 import Service from '../lib/service'
-import { setLocalUser } from '../lib/util'
+import { createLocalUser } from '../lib/util'
 import React, { useState, useEffect, useRef } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { HeartFilled, EyeOutlined, GoldTwoTone } from '@ant-design/icons'
+import UserCard from '../component/UserCard'
 import { throttle } from 'lodash'
 import Img from '../component/Img'
 import userImg from '../images/user.jpg'
 import StoryFullCard from '../component/StoryFullCard'
 import styles from './Home.module.css'
+import StoryCardList from '../component/StoryCardList'
+import ReaderIcon from '../component/ReaderIcon'
 
 const CARD_HEIGHT = 566 + 20
 const USER_HEIGHT = 65
-
-const StoryList = (props) => {
-  
-  return props.stories.map((s, i) => {
-    return <StoryCard i={i} story={s} key={s._id} expand={props.expand}/>
-  })
-}
-
-const StoryCard = (props) => {
-  const { title, id, role, cover, subtitle, likes, starttime, visitors, avatar } = props.story
-  const history = useHistory();
-  const goToStory = () => {
-    return history.push(`/story?id=${id}`)
-  }
-  const [imgSrc, setImgSrc] = useState('')
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setImgSrc(cover)
-    }, 1000)
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [])
-  return <div className={styles["card-box"]}>
-    <div className={styles["card-header"]}>
-      <div className={styles["card-date"]}>{starttime}</div>
-      <div className={styles["card-like"]}>
-        <HeartFilled /><div>&nbsp;{likes && likes.length}</div>
-      </div>
-
-    </div>
-    <div className={styles["card-title"]}>{title}</div>
-    {cover && <div className={styles["card-cover-box"]}>
-      <Img className={styles["card-cover"]} src={imgSrc} alt=""/>
-    </div>}
-    <div className={styles["card-content"]}>{subtitle}</div>
-    <div className={styles["card-footer"]}>
-      <div  onClick={() => props.expand(id)}>
-        展开
-      </div>
-      <div onClick={goToStory}>
-        链接
-      </div>
-    </div>
-  </div>
-}
-
-const UserCard = (props) => {
-  return <div className={styles["user-box"]} {...props}>
-    <div className={styles["user-info"]}>
-      <Img className={styles["user-avatar"]} src={props.user.avatar} />
-      <div>&nbsp;&nbsp;{props.user.name}</div>
-    </div>
-    <div className={styles["user-sign"]}>
-      <span className={styles["user-text-plus"]}>+</span> <span className={styles["user-text"]}>助力</span>
-    </div>
-  </div>
-}
 
 const getBayId = (txt) => {
   return txt.replace('?id=', '')
@@ -83,6 +28,7 @@ const Home = () => {
   const [scrollerHeight, setScrollerHeight] = useState(0)
   const [virtualTop, setVirtualTop] = useState(0)
   const [user, setUser] = useState()
+  const [reader, setReader] = useState({})
   const [userDisplay, setUserDisplay] = useState('')
   const [userSpaceDisplay, setUserSpaceDisplay] = useState('')
   const location = useLocation()
@@ -96,6 +42,10 @@ const Home = () => {
     }).then(res => {
       console.log('getStoryTop', res.data.data)
       setStories(res.data.data)
+      setUser({
+        avatar: res.data.data[0].avatar,
+        name: res.data.data[0].role
+      })
       getStoryCount()
       getData()
     })
@@ -148,13 +98,13 @@ const Home = () => {
     const checkUser = localStorage.getItem('user')
     let userShow = ''
     if (!checkUser) {
-      userShow = setLocalUser()
+      userShow = createLocalUser()
     } else {
       userShow = JSON.parse(checkUser)
     }
-    setUser({
+    setReader({
       id: userShow.id,
-      name: userShow.nickname,
+      nickname: userShow.nickname,
       avatar: userShow.avatar ? userShow.avatar : userImg
     })
   }
@@ -214,7 +164,7 @@ const Home = () => {
       <div className={styles["home"]} ref={homeRef} style={{overflowY: 'auto'}} onScroll={checkScroller}>
         <div className={styles["story-show"]} style={{top: virtualTop}}>
           <div className={styles["space-user"]} style={{display:userSpaceDisplay}}>&nbsp;</div>
-          <StoryList stories={stories} expand={expandStory}/>
+          <StoryCardList stories={stories} expand={expandStory}/>
         </div>
         <div className={styles["scroller"]} style={{minHeight: scrollerHeight}} >&nbsp;</div>
         {showModal && <div className={styles["modal"]}>
@@ -222,6 +172,7 @@ const Home = () => {
           <div onClick={shrinkCard}>返回</div>
         </div>}
       </div>
+      <ReaderIcon reader={reader}/>
     </div>
   );
 }

@@ -1,0 +1,55 @@
+.user-sign {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ff85f8;
+  color: #ff85f8;
+  height: 30px;
+  width: 56px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-text-plus {
+  height: 20px;
+  font-size: 16px;
+  padding-bottom: 6px;
+}
+.user-text {
+  height: 20px;
+  font-size: 16px;
+}
+
+
+.user-box {
+  position: absolute;
+  background: #ffffff;
+  z-index: 999;
+  height: 60px;
+  width: 100vw;
+  padding: 10px;
+  box-shadow: 0px 4px 4px -4px #000;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info {
+  color: #555555;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.user-avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+}

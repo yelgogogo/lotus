@@ -16,7 +16,7 @@ const getName = () => {
   return pre[Math.floor(Math.random()*pre.length)] + name[Math.floor(Math.random()*name.length)]
 }
 
-export const setLocalUser = () => {
+export const createLocalUser = () => {
   const user = {
     id: Date.now(),
     nickname: getName(),

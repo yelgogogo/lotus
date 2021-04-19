@@ -22,8 +22,8 @@ const Comments = (props) => {
   return <div className={styles["comment-container"]}>
     <div className={styles["comment-area"]}>留言板</div>
     {
-      props.comments && props.comments.map(c => {
-        return <div className={styles["comment-box"]}>
+      props.comments && props.comments.map((c, i) => {
+        return <div className={styles["comment-box"]} key={i}>
           <div className={styles["comment-left"]}>
             <Img className={styles["comment-avatar"]} src={c.avatar} alt=""/>
           </div>
@@ -43,7 +43,8 @@ const Comments = (props) => {
 }
 
 const StoryFullCard = (props) => {
-  const { title, id, role, cover, comments, description, likes, starttime, visitors, avatar } = props.story
+  console.log('StoryFullCard', props)
+  const { title, id, role, subcontents, cover, comments, description, likes, starttime, visitors, avatar } = props.story
   return <div className={styles["card-box"]}>
     {/* {avatar && <img className={styles["card-avatar" src={imgPath(avatar)} alt=""/>} */}
     <div className={styles["card-header"]}>
@@ -51,8 +52,13 @@ const StoryFullCard = (props) => {
     </div>
     <div className={styles["card-title"]}>{title}</div>
     {/* <div>{role}</div> */}
-    {cover && <Img className={styles["card-cover"]} src={cover} alt=""/>}
+    { cover && <Img className={styles["card-cover"]} src={cover} alt=""/> }
     <div className={styles["card-content"]}>{description}</div>
+    { subcontents && subcontents.length > 0 && subcontents.map( (s,i) => <div key={i}>
+        <Img className={styles["card-cover"]} src={s.illustration} alt=""/>
+        {s.content}
+      </div>)
+    }
     {/* <EyeOutlined /> */}
     <div className={styles["card-footer"]}>
       <div>{visitors && `${visitors.length}阅读`}</div>

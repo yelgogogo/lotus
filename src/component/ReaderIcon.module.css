@@ -1,0 +1,36 @@
+.reader-main {
+  background-color: #ffffff;
+  height: 48px;
+  position: fixed;
+  right: 0;
+  bottom: 20px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  box-sizing: border-box;
+}
+.reader-box {
+  height: 40px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  margin-left: 4px;
+  background-color: #ffffff;
+  min-width: 96px;
+  color: #ff85f8;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.reader-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.reader-name {
+  margin-left: 10px;
+  margin-right: 10px;
+}
