@@ -31,9 +31,14 @@ const Home = () => {
   const [reader, setReader] = useState({})
   const [userDisplay, setUserDisplay] = useState('')
   const [userSpaceDisplay, setUserSpaceDisplay] = useState('')
+  const [readerExpand, setReaderExpand] = useState(true)
+
   const location = useLocation()
   const bayid = getBayId(location.search)
   
+  const readerClick = () => {
+    setReaderExpand(!readerExpand)
+  }
   const getStoryTop = () => {
     Service.get('/storyTop', {
       params: {
@@ -66,6 +71,7 @@ const Home = () => {
   }
 
   const checkScroller = () => {
+    setReaderExpand(false)
     if (storiesAll.length === 0) {
       return
     }
@@ -172,7 +178,7 @@ const Home = () => {
           <div onClick={shrinkCard}>返回</div>
         </div>}
       </div>
-      <ReaderIcon reader={reader}/>
+      <ReaderIcon reader={reader} expand={readerExpand} onIconClick={readerClick}/>
     </div>
   );
 }

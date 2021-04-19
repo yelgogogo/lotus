@@ -16,7 +16,6 @@
   border-bottom-left-radius: 20px;
   margin-left: 4px;
   background-color: #ffffff;
-  min-width: 96px;
   color: #ff85f8;
   display: flex;
   flex-direction: row;
@@ -28,6 +27,7 @@
   width: 40px;
   height: 40px;
   border-radius: 20px;
+  margin-right: 4px;
 }
 
 .reader-name {
