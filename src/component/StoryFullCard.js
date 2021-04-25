@@ -1,5 +1,6 @@
 import { HeartFilled, EyeOutlined, GoldTwoTone } from '@ant-design/icons'
 import Img from '../component/Img'
+import { getTimeFormat } from '../lib/util'
 import styles from './StoryFullCard.module.css'
 
 const Likes = (props) => {
@@ -43,12 +44,11 @@ const Comments = (props) => {
 }
 
 const StoryFullCard = (props) => {
-  console.log('StoryFullCard', props)
   const { title, id, role, subcontents, cover, comments, description, likes, starttime, visitors, avatar } = props.story
   return <div className={styles["card-box"]}>
     {/* {avatar && <img className={styles["card-avatar" src={imgPath(avatar)} alt=""/>} */}
     <div className={styles["card-header"]}>
-      <div className={styles["card-date"]}>{starttime}</div>
+      <div className={styles["card-date"]}>{getTimeFormat(starttime)}</div>
     </div>
     <div className={styles["card-title"]}>{title}</div>
     {/* <div>{role}</div> */}
@@ -61,16 +61,21 @@ const StoryFullCard = (props) => {
     }
     {/* <EyeOutlined /> */}
     <div className={styles["card-footer"]}>
-      <div>{visitors && `${visitors.length}阅读`}</div>
-      <div className={styles["card-footer-right"]}>
+      <div>{visitors && `${visitors.length} 次阅读`}</div>
+      {/* <div className={styles["card-footer-right"]}>
         <div className={styles["card-like"]}>
           <HeartFilled /><div>&nbsp;赞</div>
         </div>
         <div>评论</div>
-      </div>
+      </div> */}
     </div>
     <Likes likes={likes}/>
     <Comments comments={comments} />
+    <div className={styles["card-btn-box"]}>
+      <div className={styles["card-button"]}>
+        <div className={styles["card-goback"]} onClick={props.goBack}>返回</div>
+      </div>
+    </div>
   </div>
 }
 

@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Img from '../component/Img'
 import styles from './StoryCardList.module.css'
+import {getTimeFormat} from '../lib/util'
 
 const StoryCardList = (props) => {
   
@@ -28,7 +29,7 @@ const StoryCard = (props) => {
   }, [])
   return <div className={styles["card-box"]}>
     <div className={styles["card-header"]}>
-      <div className={styles["card-date"]}>{starttime}</div>
+      <div className={styles["card-date"]}>{getTimeFormat(starttime)}</div>
       <div className={styles["card-like"]}>
         <HeartFilled /><div>&nbsp;{likes && likes.length}</div>
       </div>

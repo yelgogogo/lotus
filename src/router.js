@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import Home from './view/Home'
 import Story from './view/Story'
+import AddStory from './view/AddStory'
 
 const LotusRouter = () => {
   return (
@@ -14,6 +15,9 @@ const LotusRouter = () => {
       </Route>
       <Route exact path="/story">
         <Story />
+      </Route>
+      <Route exact path="/addstory">
+        <AddStory />
       </Route>
     </Router>
   );

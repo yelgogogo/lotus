@@ -11,12 +11,13 @@ import StoryFullCard from '../component/StoryFullCard'
 import styles from './Home.module.css'
 import StoryCardList from '../component/StoryCardList'
 import ReaderIcon from '../component/ReaderIcon'
+import AddStory from './AddStory'
 
 const CARD_HEIGHT = 566 + 20
 const USER_HEIGHT = 65
 
 const getBayId = (txt) => {
-  return txt.replace('?id=', '')
+  return parseInt(txt.replace('?id=', ''))
 }
 
 
@@ -34,6 +35,7 @@ const Home = () => {
   const [readerExpand, setReaderExpand] = useState(true)
 
   const location = useLocation()
+  const history = useHistory()
   const bayid = getBayId(location.search)
   
   const readerClick = () => {
@@ -52,7 +54,7 @@ const Home = () => {
         name: res.data.data[0].role
       })
       getStoryCount()
-      getData()
+      getStoryData()
     })
   }
   
@@ -104,7 +106,7 @@ const Home = () => {
     const checkUser = localStorage.getItem('user')
     let userShow = ''
     if (!checkUser) {
-      userShow = createLocalUser()
+      userShow = createLocalUser({bayid})
     } else {
       userShow = JSON.parse(checkUser)
     }
@@ -119,7 +121,7 @@ const Home = () => {
     getStoryTop()
   }, [])
 
-  const getData = () => {
+  const getStoryData = () => {
     Service.get('/story', {
       params: {
         bayid
@@ -127,6 +129,7 @@ const Home = () => {
     }).then(res => {
       console.log('res', res.data.data[100])
       setStoriesAll(res.data.data)
+      checkScroller()
     })
   }
   const goToTop = () => {
@@ -152,14 +155,95 @@ const Home = () => {
       console.log('expandStory', res.data.data)
       setUserDisplay('none')
       setStory(res.data.data)
-      setShowModal('StoryFullCard')
+      setShowModal('EXPAND_CARD')
     })
   }
   const shrinkCard = () => {
     homeRef.current.overflowY = 'scroll'
+    setShowModal('')
     setUserDisplay('')
     setStory({})
+  }
+
+  const addNewStory = () => {
+    setUserDisplay('none')
+    setShowModal('ADD_STORY')
+  }
+  const goBackToHome = () => {
     setShowModal('')
+  }
+
+  const deleteStory = () => {
+    Service.post('/deletestory', {
+      id: story.id,
+      user: {...reader}
+    })
+    .then(res => {
+      shrinkCard()
+      getStoryData()
+    })
+  }
+  const editCard = () => {
+    
+  }
+
+  const likeStory = () => {
+    Service.put('/like', {
+      id: story.id,
+      likes: [{
+        ...reader
+      }]
+    }).then(res => {
+      setStory(res.data.data)
+      getStoryData()
+    })
+  }
+
+  const actionButton = (act) => {
+    if (act === 'GO_BACK_HOME') {
+      return <div className={styles["reader-action"]} onClick={goBackToHome}>返回</div>
+    }
+    if (act === 'SHRINK_CARD') {
+      return <div className={styles["reader-action"]} onClick={shrinkCard}>返回</div>
+    }
+    if (act === 'DELETE_CARD') {
+      return <div className={styles["reader-action"]} onClick={deleteStory}>删除</div>
+    }
+    if (act === 'EDIT_CARD') {
+      return <div className={styles["reader-action"]} onClick={editCard}>编辑</div>
+    }
+    if (act === 'NEW_CARD') {
+      return <div className={styles["reader-action"]} onClick={addNewStory}>写作</div>
+    }
+    if (act === 'LIKE') {
+      return <div className={styles["reader-action"]} onClick={likeStory}>
+        <HeartFilled />&nbsp;赞
+      </div>
+    }
+    if (act === 'COMMENT') {
+      return <div className={styles["reader-action"]} onClick={addNewStory}>评论</div>
+    }
+    return ''
+  }
+  const actions = () => {
+    const actionsArray = []
+    if (showModal === 'ADD_STORY') {
+      actionsArray.push('GO_BACK_HOME') 
+    }
+    if (showModal === 'EXPAND_CARD') {
+      if (story.ownerid === reader.id) {
+        actionsArray.push('DELETE_CARD')
+        actionsArray.push('EDIT_CARD') 
+      }
+      actionsArray.push('LIKE')
+      actionsArray.push('COMMENT') 
+    }
+    if (showModal === '') {
+      actionsArray.push('NEW_CARD')
+    }
+    return actionsArray.map(a => {
+      return actionButton(a)
+    })
   }
 
   const homeRef = useRef()
@@ -174,11 +258,11 @@ const Home = () => {
         </div>
         <div className={styles["scroller"]} style={{minHeight: scrollerHeight}} >&nbsp;</div>
         {showModal && <div className={styles["modal"]}>
-          { showModal === 'StoryFullCard' && <StoryFullCard story={story}/>}
-          <div onClick={shrinkCard}>返回</div>
+          { showModal === 'EXPAND_CARD' && <StoryFullCard story={story} goBack={shrinkCard}/>}
+          { showModal === 'ADD_STORY' && <AddStory />}
         </div>}
       </div>
-      <ReaderIcon reader={reader} expand={readerExpand} onIconClick={readerClick}/>
+      <ReaderIcon actions={actions()} reader={reader} expand={readerExpand} onIconClick={readerClick}/>
     </div>
   );
 }
