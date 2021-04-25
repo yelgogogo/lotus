@@ -127,7 +127,6 @@ const Home = () => {
         bayid
       }
     }).then(res => {
-      console.log('res', res.data.data[100])
       setStoriesAll(res.data.data)
       checkScroller()
     })
@@ -180,11 +179,21 @@ const Home = () => {
     })
     .then(res => {
       shrinkCard()
-      getStoryData()
+      deleteStoryData(story.id)
     })
+  }
+
+  const deleteStoryData = (id) => {
+    let cpyStories = stories.filter(s => s.id !== id)
+    setStories(cpyStories)
   }
   const editCard = () => {
     
+  }
+
+  const submitStory = () => {
+    getStoryTop()
+    shrinkCard()
   }
 
   const likeStory = () => {
@@ -259,7 +268,7 @@ const Home = () => {
         <div className={styles["scroller"]} style={{minHeight: scrollerHeight}} >&nbsp;</div>
         {showModal && <div className={styles["modal"]}>
           { showModal === 'EXPAND_CARD' && <StoryFullCard story={story} goBack={shrinkCard}/>}
-          { showModal === 'ADD_STORY' && <AddStory />}
+          { showModal === 'ADD_STORY' && <AddStory onSubmit={submitStory}/>}
         </div>}
       </div>
       <ReaderIcon actions={actions()} reader={reader} expand={readerExpand} onIconClick={readerClick}/>

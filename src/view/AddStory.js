@@ -55,9 +55,6 @@ const AddStory = (props) => {
     if (!title) {
       return true
     }
-    if (!cover) {
-      return true
-    }
     if (!content) {
       return true
     }
@@ -71,6 +68,7 @@ const AddStory = (props) => {
     const submitData = {...story, title, cover, description, subtitle, starttime}
     Service.post('/story', submitData).then(res => {
       console.log('res', res.data)
+      props.onSubmit()
     })
   }
 
