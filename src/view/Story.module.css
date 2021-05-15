@@ -12,6 +12,20 @@
   border-radius: 20px;
 }
 
+.reader-action {
+  min-width: 30px;
+  margin-left: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 6px;
+  border-color: #ff85f8;
+  border-style: solid;
+  border-width: 1px;
+  text-align: center;
+}
+
 .home {
   width: 100%;
   padding: 16px;

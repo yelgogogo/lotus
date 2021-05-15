@@ -168,6 +168,7 @@ const Home = () => {
     setUserDisplay('none')
     setShowModal('ADD_STORY')
   }
+  
   const goBackToHome = () => {
     setShowModal('')
   }
