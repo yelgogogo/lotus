@@ -6,7 +6,7 @@ import styles from './Story.module.css'
 import StoryFullCard from '../component/StoryFullCard'
 import UserCard from '../component/UserCard'
 import ReaderIcon from '../component/ReaderIcon'
-import { createLocalUser } from '../lib/util'
+import { createLocalUser, NAME } from '../lib/util'
 import userImg from '../images/user.jpg'
 import moment from 'moment'
 
@@ -98,6 +98,13 @@ const Story = (props) => {
       userShow = createLocalUser({bayid})
     } else {
       userShow = JSON.parse(checkUser)
+    }
+    const reg = /.*的/
+    if (!userShow.avatar) {
+      if (NAME.includes(userShow.nickname.replace(reg, ''))) {
+        userShow.avatar = '/uploads/avatar/' + userShow.nickname.replace(reg, '') + '.jpg'
+        localStorage.setItem('user', JSON.stringify(userShow))
+      }
     }
     setReader({
       id: userShow.id,
