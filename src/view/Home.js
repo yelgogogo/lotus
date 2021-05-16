@@ -12,6 +12,7 @@ import styles from './Home.module.css'
 import StoryCardList from '../component/StoryCardList'
 import ReaderIcon from '../component/ReaderIcon'
 import AddStory from './AddStory'
+import EditStory from './EditStory'
 
 const CARD_HEIGHT = 566 + 20
 const USER_HEIGHT = 65
@@ -176,7 +177,7 @@ const Home = () => {
   const deleteStory = () => {
     Service.post('/deletestory', {
       id: story.id,
-      user: {...reader}
+      user: { ...reader }
     })
     .then(res => {
       shrinkCard()
@@ -189,7 +190,9 @@ const Home = () => {
     setStories(cpyStories)
   }
   const editCard = () => {
-    
+    console.log('editCard')
+    setUserDisplay('none')
+    setShowModal('EDIT_STORY')
   }
 
   const submitStory = () => {
@@ -270,6 +273,7 @@ const Home = () => {
         {showModal && <div className={styles["modal"]}>
           { showModal === 'EXPAND_CARD' && <StoryFullCard story={story} goBack={shrinkCard}/>}
           { showModal === 'ADD_STORY' && <AddStory onSubmit={submitStory}/>}
+          { showModal === 'EDIT_STORY' && <EditStory story={story} onSubmit={submitStory}/>}
         </div>}
       </div>
       <ReaderIcon actions={actions()} reader={reader} expand={readerExpand} onIconClick={readerClick}/>

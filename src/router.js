@@ -6,6 +6,7 @@ import {
 import Home from './view/Home'
 import Story from './view/Story'
 import AddStory from './view/AddStory'
+import EditStory from './view/EditStory'
 
 const LotusRouter = () => {
   return (
@@ -18,6 +19,9 @@ const LotusRouter = () => {
       </Route>
       <Route exact path="/addstory">
         <AddStory />
+      </Route>
+      <Route exact path="/editstory">
+        <EditStory />
       </Route>
     </Router>
   );

@@ -6,13 +6,9 @@ import styles from './Story.module.css'
 import StoryFullCard from '../component/StoryFullCard'
 import UserCard from '../component/UserCard'
 import ReaderIcon from '../component/ReaderIcon'
-import { createLocalUser, NAME } from '../lib/util'
+import { createLocalUser, NAME, getQueryId } from '../lib/util'
 import userImg from '../images/user.jpg'
 import moment from 'moment'
-
-const getQueryId = (txt) => {
-  return txt.replace('?id=', '')
-}
 
 const Story = (props) => {
   const [story, setStory] = useState(null)

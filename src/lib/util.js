@@ -57,3 +57,7 @@ export const getTimeFormat = (t) => {
   }
   return moment(time).format('YYYY年 M月 D日 H:mm:ss')
 }
+
+export const getQueryId = (txt) => {
+  return txt.replace('?id=', '')
+}
