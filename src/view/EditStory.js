@@ -71,12 +71,6 @@ const EditStory = (props) => {
         
       </div>
       <textarea rows="20" className={styles["edit-content"]} placeholder="请输入正文" defaultValue={content} onChange={contentChange}/>
-      {/* <div>
-        插入图片
-      </div>
-      <div>
-        插入说明
-      </div> */}
       <button className={styles["edit-submit"]} disabled={disableStory()} onClick={submitStory}>发布</button>
     </div>
   )

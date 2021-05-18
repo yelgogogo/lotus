@@ -1,0 +1,22 @@
+{
+  "extends": "react-app",
+  "plugins": [
+    "react-hooks"
+  ],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-multi-spaces": "warn",
+    "jsx-quotes": "warn",
+    "react/jsx-closing-bracket-location": "warn",
+    "no-trailing-spaces": "warn",
+    "no-mixed-spaces-and-tabs": "warn",
+    "space-in-parens": "warn",
+    "space-infix-ops": "warn",
+    "keyword-spacing": "warn",
+    "no-multiple-empty-lines": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "comma-dangle": ["warn", "never"],
+    "comma-spacing":["warn", { "before": false, "after": true }]
+	}
+}
